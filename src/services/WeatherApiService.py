@@ -1,4 +1,5 @@
 import os
+import datetime
 from src.utils import RequestPerformer
 
 class WeatherApiService(object):
@@ -21,12 +22,22 @@ class WeatherApiService(object):
         self.is_weather_phenomenon_happening_in_city_tomorrow(city, "Clear")
 
     def is_weather_phenomenon_happening_in_city_tomorrow(self, city, phenomenon):
-        response = self.requestClient.get(API_BASE_URL, { "q": city, "appid": API_KEY })
-        tomorrowForecast = response["list"]
+        tomorrowForecast = self.get_tomorrow_weather_forecast(city)
 
-        for prevision in tomorrowForecast.weather:
-            if (prevision.main == phenomenon):
-                return True
+        for subWeatherForecast in tomorrowForecast:
+            for prevision in subWeatherForecast["weather"]:
+                if (prevision.main == phenomenon):
+                    return True
         return False
 
+    def get_tomorrow_weather_forecast(self, city):
+        tomorrowDate = datetime.date.today() + datetime.timedelta(days=1)
 
+        response = self.requestClient.get(API_BASE_URL, { "q": city, "appid": API_KEY }),
+        weekForecast = response["list"]
+        tomorrowForecast = list()
+
+        for forecast in weekForecast:
+            forecastDate = datetime.datetime.fromtimestamp(forecast.dt)
+            if(forecastDate.day == tomorrowDate.day):
+                tomorrowForecast.append(forecast)
