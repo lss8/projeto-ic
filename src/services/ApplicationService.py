@@ -5,20 +5,20 @@ class ApplicationService(object):
     MINIMUM_INPUT_CONFIDENCE = os.environ["MINIMUM_INPUT_CONFIDENCE"]
 
     def __init__(self):
-        self.contextAnalysisApiService = ContextAnalysisApiService()
-        self.weatherApiService = WeatherApiService()
+        self.context_analysis_api_service = ContextAnalysisApiService()
+        self.weather_api_service = WeatherApiService()
 
     def handle_user_input(self, input, city):
-        inputAnalysis = self.contextAnalysisApiService.get_phrase_analysis
+        input_analysis = self.context_analysis_api_service.get_phrase_analysis
 
-        if (inputAnalysis["confidence"] < MINIMUM_INPUT_CONFIDENCE):
-            raise Exception("Input could not produce a result")
+        if (input_analysis["confidence"] < MINIMUM_INPUT_CONFIDENCE):
+            raise Exception("Input could not produce a valid result")
 
-        if (inputAnalysis["label"] == "rain"):
-            return self.weatherApiService.is_raining_on_city_tomorrow(city)
-        elif (inputAnalysis["label"] == "snow"):
-            return self.weatherApiService.is_snowing_on_city_tomorrow(city)
-        elif (inputAnalysis["label"] == "sunny"):
-            return self.weatherApiService.is_sunny_on_city_tomorrow(city)
+        if (input_analysis["label"] == "rain"):
+            return self.weather_api_service.is_raining_on_city_tomorrow(city)
+        elif (input_analysis["label"] == "snow"):
+            return self.weather_api_service.is_snowing_on_city_tomorrow(city)
+        elif (input_analysis["label"] == "sunny"):
+            return self.weather_api_service.is_sunny_on_city_tomorrow(city)
         else:
-            return self.weatherApiService.get_city_tomorrow_weather_forecast(city)
+            return self.weather_api_service.get_city_tomorrow_weather_forecast(city)
