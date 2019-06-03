@@ -1,7 +1,7 @@
-What is the weather forecast for tomorrow?
-What will the weather be like tomorrow?
-Weather tomorrow
-What Maju has to say about the weather for tomorrow?
+What is the weather forecast for?
+What will the weather be like?
+Weather
+What Maju has to say about the weather for?
 How’s the weather?
 Temperature
 What’s the temperature?
